@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-productivity-backend
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      DB_PATH: /app/data/productivity.db
+      FRONTEND_URL: http://localhost:3000
+      LOG_LEVEL: info
+    volumes:
+      - sqlite_data:/app/data
+    networks:
+      - ai-productivity-network
+    healthcheck:
+      test: ['CMD', 'node', '-e', "require('http').get('http://localhost:5000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:5000
+    container_name: ai-productivity-frontend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - ai-productivity-network
+
+networks:
+  ai-productivity-network:
+    driver: bridge
+
+volumes:
+  sqlite_data:
+    driver: local
