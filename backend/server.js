@@ -45,6 +45,22 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "AI Worker Productivity Dashboard API",
+    version: "1.0.0",
+    endpoints: {
+      health: "/health",
+      events: "/api/events",
+      metrics: "/api/metrics/factory",
+      workers: "/api/metrics/workers",
+      workstations: "/api/metrics/workstations",
+      seed: "/api/seed",
+    },
+  });
+});
+
 app.get("/health", (_req, res) => {
   res.status(200).json({
     success: true,
