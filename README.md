@@ -8,8 +8,7 @@ Built using **Next.js 14, Node.js (Express), MongoDB, and Docker**.
 
 ## 🚀 Live Application
 
-- 🔗 **GitHub Repository:** [Add Link Here]  
-- 🌐 **Live Demo:** [Add Deployment Link Here]
+- 🌐 **Live Demo: https://ai-worker-productivity-dashboard-5i.vercel.app
 
 ---
 
@@ -235,3 +234,4 @@ This solution:
 ✔ Supports model versioning & drift detection  
 ✔ Built using production-grade architecture  
 ✔ Fully containerized
+
